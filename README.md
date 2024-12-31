@@ -60,9 +60,14 @@ npm run new
 ```bash
 npm run preview
 ```
+
 ## 部署到github的pages
-### 请将仓库命名为username.github.io
-### cloudflare账户链接github可自行构建部署
+#### 1.请将仓库命名为username.github.io
+#### 2.请到`settings`->`pages`->`Build and deployment`,选择actions，然后config static后生成workflow等待username.github.io即可
+
+## 部署到cloudflare
+#### cloudflare账户链接github可自行构建部署
+
 ## 常见问题
 
 ### 1. 如何修改文章的发布时间？
