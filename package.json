@@ -1,0 +1,17 @@
+{
+  "name": "simpleblog",
+  "version": "1.0.0",
+  "description": "一个简单的markdown博客框架",
+  "scripts": {
+    "new": "node scripts/bl.js new",
+    "preview": "node scripts/bl.js preview",
+    "build": "node scripts/bl.js build"
+  },
+  "dependencies": {
+    "marked": "^9.1.0",
+    "front-matter": "^4.0.2",
+    "inquirer": "^8.2.4",
+    "moment": "^2.29.4",
+    "chokidar": "^3.5.3"
+  }
+}

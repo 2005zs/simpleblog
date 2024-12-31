@@ -1,0 +1,179 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>博客预览</title>
+            <style>
+                :root {
+                    --custom-bg-image: none;  /* 在这里设置自定义背景图片，例如: url('/path/to/image.jpg') */
+                }
+                
+                body { 
+                    max-width: 800px; 
+                    margin: 0 auto; 
+                    padding: 20px;
+                    background: #1a1a1a;
+                    color: #e0e0e0;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                    min-height: 100vh;
+                    position: relative;
+                }
+
+                /* 背景纹理 */
+                body::before {
+                    content: '';
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: 
+                        var(--custom-bg-image),
+                        linear-gradient(to bottom, #1a1a1a 0%, #2a2a2a 100%),
+                        repeating-linear-gradient(45deg, #222 0, #222 1px, transparent 0, transparent 50%);
+                    background-blend-mode: overlay;
+                    background-size: cover, 100% 100%, 30px 30px;
+                    opacity: 0.8;
+                    z-index: -1;
+                }
+
+                .article-item {
+                    display: flex;
+                    margin-bottom: 20px;
+                    background: rgba(40, 40, 40, 0.9);
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    transition: transform 0.2s;
+                    backdrop-filter: blur(5px);
+                }
+
+                .article-item:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                }
+
+                .article-cover {
+                    width: 200px;
+                    height: 150px;
+                    overflow: hidden;
+                }
+
+                .article-cover img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .article-content {
+                    flex: 1;
+                    padding: 15px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .article-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .top-tag {
+                    background: #ff4d4f;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                }
+
+                .article-title {
+                    margin: 0;
+                    font-size: 1.2em;
+                }
+
+                .article-title a {
+                    color: #e0e0e0;
+                    text-decoration: none;
+                }
+
+                .article-title a:hover {
+                    color: #1890ff;
+                }
+
+                .article-meta {
+                    margin-top: 10px;
+                    color: #888;
+                    font-size: 0.9em;
+                }
+
+                .meta-item {
+                    margin-right: 15px;
+                }
+
+                .meta-item i {
+                    margin-right: 5px;
+                }
+
+                h1 {
+                    color: #fff;
+                    border-bottom: 2px solid #1890ff;
+                    padding-bottom: 10px;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                }
+            </style>
+        </head>
+        <body>
+            <h1>文章列表</h1>
+            
+        <div class="article-item">
+            <div class="article-cover">
+                <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
+            </div>
+            <div class="article-content">
+                <div class="article-header">
+                    <span class="top-tag">置顶</span>
+                    <h2 class="article-title">
+                        <a href="/articles/2024-12-31-%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2.html">第一篇博客</a>
+                    </h2>
+                </div>
+                <div class="article-meta">
+                    <span class="meta-item">
+                        <i class="icon-calendar"></i>
+                        2024-12-31
+                    </span>
+                    <span class="meta-item">
+                        <i class="icon-tag"></i>
+                        技术分享
+                    </span>
+                </div>
+            </div>
+        </div>
+    
+        <div class="article-item">
+            <div class="article-cover">
+                <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
+            </div>
+            <div class="article-content">
+                <div class="article-header">
+                    
+                    <h2 class="article-title">
+                        <a href="/articles/2024-12-31-%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2.html">第二篇博客</a>
+                    </h2>
+                </div>
+                <div class="article-meta">
+                    <span class="meta-item">
+                        <i class="icon-calendar"></i>
+                        2024-12-31
+                    </span>
+                    <span class="meta-item">
+                        <i class="icon-tag"></i>
+                        生活琐事
+                    </span>
+                </div>
+            </div>
+        </div>
+    
+        </body>
+        </html>
+    
