@@ -9,7 +9,7 @@ const { convertMarkdownToHtml, countWords } = require('./convertMarkdown');
 const POSTS_DIR = path.join(__dirname, '../posts/articles');
 const TEMPLATE_PATH = path.join(__dirname, '../posts/template.md');
 const CATEGORIES_PATH = path.join(__dirname, '../posts/categories.md');
-const PREVIEW_DIR = path.join(__dirname, '../preview');
+const OUTPUT_DIR = path.join(__dirname, '..');
 
 // 读取分类
 function getCategories() {
@@ -95,12 +95,12 @@ function generateArticleList() {
 
 // 生成预览HTML
 function generatePreviewHtml() {
-    if (!fs.existsSync(PREVIEW_DIR)) {
-        fs.mkdirSync(PREVIEW_DIR, { recursive: true });
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     }
 
-    if (!fs.existsSync(path.join(PREVIEW_DIR, 'articles'))) {
-        fs.mkdirSync(path.join(PREVIEW_DIR, 'articles'), { recursive: true });
+    if (!fs.existsSync(path.join(OUTPUT_DIR, 'articles'))) {
+        fs.mkdirSync(path.join(OUTPUT_DIR, 'articles'), { recursive: true });
     }
 
     const articles = generateArticleList();
@@ -262,7 +262,7 @@ function generatePreviewHtml() {
         </html>
     `;
 
-    fs.writeFileSync(path.join(PREVIEW_DIR, 'index.html'), indexHtml);
+    fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), indexHtml);
 
     articles.forEach(article => {
         const mdContent = fs.readFileSync(path.join(POSTS_DIR, article.fileName), 'utf-8');
@@ -545,13 +545,13 @@ function generatePreviewHtml() {
         `;
 
         fs.writeFileSync(
-            path.join(PREVIEW_DIR, 'articles', article.fileName.replace('.md', '.html')),
+            path.join(OUTPUT_DIR, 'articles', article.fileName.replace('.md', '.html')),
             articleHtml
         );
     });
 
-    console.log(`预览文件已生成在 ${PREVIEW_DIR} 目录下`);
-    console.log('请使用浏览器打开 preview/index.html 查看预览');
+    console.log(`预览文件已生成在 ${OUTPUT_DIR} 目录下`);
+    console.log('请使用浏览器打开 index.html 查看预览');
 }
 
 // 添加文件监听功能
@@ -587,7 +587,7 @@ function startPreviewServer() {
     const server = http.createServer((req, res) => {
         // 解码 URL，处理中文路径
         const decodedUrl = decodeURIComponent(req.url);
-        let filePath = path.join(PREVIEW_DIR, decodedUrl === '/' ? 'index.html' : decodedUrl);
+        let filePath = path.join(OUTPUT_DIR, decodedUrl === '/' ? 'index.html' : decodedUrl);
         
         // 处理文件路径
         if (!path.extname(filePath)) {

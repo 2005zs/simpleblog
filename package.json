@@ -5,7 +5,7 @@
   "scripts": {
     "new": "node scripts/bl.js new",
     "preview": "node scripts/bl.js preview",
-    "build": "node scripts/bl.js"
+    "build": "node scripts/bl.js build"
   },
   "dependencies": {
     "marked": "^9.1.0",
