@@ -75,13 +75,7 @@ npm run preview
 在文章前置信息中的 `topImage` 字段填入图片 URL。
 
 ## 贡献指南
-欢迎提交 Issue 和 Pull Request！
-
-## 许可证
-MIT License
+欢迎提交 Issue 和 Pull Request！（大佬带带我！）
 
 ## 作者
-[banlan]
-
-## 致谢
-感谢所有开源项目的贡献者！
+banlan
