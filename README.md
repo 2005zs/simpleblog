@@ -83,4 +83,4 @@ npm run preview
 欢迎提交 Issue 和 Pull Request！（大佬带带我！）
 
 ## 作者
-[banlanzs](https://banlanzs)
+[banlanzs](https://github.com/banlanzs)
