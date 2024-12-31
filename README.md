@@ -50,7 +50,7 @@ cd simpleblog
 ```
 ### 安装依赖
 ```bash
-npm install
+npm ci
 ```
 ### 创建新文章
 ```bash
