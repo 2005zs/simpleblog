@@ -9,7 +9,7 @@ const { convertMarkdownToHtml, countWords } = require('./convertMarkdown');
 const POSTS_DIR = path.join(__dirname, '../posts/articles');
 const TEMPLATE_PATH = path.join(__dirname, '../posts/template.md');
 const CATEGORIES_PATH = path.join(__dirname, '../posts/categories.md');
-const PREVIEW_DIR = path.join(__dirname, '../preview');
+const PREVIEW_DIR = path.join(__dirname, '../dist');
 
 // 读取分类
 function getCategories() {
@@ -95,13 +95,12 @@ function generateArticleList() {
 
 // 生成预览HTML
 function generatePreviewHtml() {
-    if (!fs.existsSync(PREVIEW_DIR)) {
-        fs.mkdirSync(PREVIEW_DIR, { recursive: true });
+    // 清理并创建输出目录
+    if (fs.existsSync(PREVIEW_DIR)) {
+        fs.rmSync(PREVIEW_DIR, { recursive: true });
     }
-
-    if (!fs.existsSync(path.join(PREVIEW_DIR, 'articles'))) {
-        fs.mkdirSync(path.join(PREVIEW_DIR, 'articles'), { recursive: true });
-    }
+    fs.mkdirSync(PREVIEW_DIR, { recursive: true });
+    fs.mkdirSync(path.join(PREVIEW_DIR, 'articles'), { recursive: true });
 
     const articles = generateArticleList();
     const articleListHtml = articles.map(article => `
@@ -552,6 +551,12 @@ function generatePreviewHtml() {
 
     console.log(`预览文件已生成在 ${PREVIEW_DIR} 目录下`);
     console.log('请使用浏览器打开 preview/index.html 查看预览');
+
+    // 如果有图片或其他资源，也需要复制
+    const assetsDir = path.join(__dirname, '../assets');
+    if (fs.existsSync(assetsDir)) {
+        fs.cpSync(assetsDir, path.join(PREVIEW_DIR, 'assets'), { recursive: true });
+    }
 }
 
 // 添加文件监听功能
