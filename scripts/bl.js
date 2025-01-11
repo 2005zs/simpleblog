@@ -221,7 +221,7 @@ function generatePreviewHtml() {
 
             <h3>推荐文章</h3>
             <ul>
-                <li><a href="articles/2024-12-31-welcome.html">推荐文章 1</a></li>
+                <li><a href="#">推荐文章 1</a></li>
                 <li><a href="#">推荐文章 2</a></li>
             </ul>
         </div>
