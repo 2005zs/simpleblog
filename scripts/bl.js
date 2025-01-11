@@ -49,7 +49,8 @@ async function createNewPost() {
         }
     ]);
 
-    const date = moment().format('YYYY-MM-DD');
+     const date = moment().format('YYYY-MM-DD');
+    //const date = moment().format('YYYY-MM-DD HH:mm:ss');
     const template = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
     
     const content = template
@@ -60,6 +61,7 @@ async function createNewPost() {
         .replace('topImage: ""', `topImage: "${answers.topImage || ''}"`);
 
     const fileName = `${date}-${answers.title.toLowerCase().replace(/\s+/g, '-')}.md`;
+    //const fileName = `${date.replace(/\s+/g, '_')}-${answers.title.toLowerCase().replace(/\s+/g, '-')}.md`;
     const filePath = path.join(POSTS_DIR, fileName);
     
     fs.writeFileSync(filePath, content);
@@ -104,37 +106,137 @@ function generatePreviewHtml() {
     }
 
     const articles = generateArticleList();
-    const articleListHtml = articles.map(article => `
-        <div class="article-item">
-            <div class="article-cover">
-                <img src="${article.topImage}" alt="文章封面">
-            </div>
-            <div class="article-content">
-                <div class="article-header">
-                    ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
-                    <h2 class="article-title">
-                        <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
-                    </h2>
-                </div>
-                <div class="article-meta">
-                    <span class="meta-item">
-                        <i class="icon-calendar"></i>
-                        ${moment(article.date).format('YYYY-MM-DD')}
-                    </span>
-                    <span class="meta-item">
-                        <i class="icon-tag"></i>
-                        ${article.category}
-                    </span>
-                </div>
-            </div>
+    // const articleListHtml = articles.map(article => `
+    //     <div class="article-item">
+    //         <div class="article-cover">
+    //             <img src="${article.topImage}" alt="文章封面">
+    //         </div>
+    //         <div class="article-content">
+    //             <div class="article-header">
+    //                 ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
+    //                 <h2 class="article-title">
+    //                     <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
+    //                 </h2>
+    //             </div>
+    //             <div class="article-meta">
+    //                 <span class="meta-item">
+    //                     <i class="icon-calendar"></i>
+    //                     ${moment(article.date).format('YYYY-MM-DD')}
+    //                <!-- ${moment(article.date).format('YYYY-MM-DD HH:mm:ss')}-->
+    //                 </span>
+    //                 <span class="meta-item">
+    //                     <i class="icon-tag"></i>
+    //                     ${article.category}
+    //                 </span>
+    //             </div>
+    //         </div>
+    //     </div>
+    // `).join('');
+    // const articleListHtml = articles.map(article => {
+    //     const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
+    //     const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
+    
+    //     return `
+    //         <div class="article-item">
+    //             <div class="article-cover">
+    //                 <img src="${article.topImage}" alt="文章封面">
+    //             </div>
+    //             <div class="article-content">
+    //                 <div class="article-header">
+    //                     ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
+    //                     <h2 class="article-title">
+    //                         <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
+    //                     </h2>
+    //                 </div>
+    //                 <div class="article-meta">
+    //                     <span class="meta-item">
+    //                         <i class="icon-calendar"></i>
+    //                         ${moment(article.date).format('YYYY-MM-DD')}
+    //                     </span>
+    //                     <span class="meta-item">
+    //                         <i class="icon-tag"></i>
+    //                         ${article.category}
+    //                     </span>
+    //                 </div>
+    //                 <div class="article-footer">
+    //                     <span class="meta-item">
+    //                         <i class="icon-clock"></i>
+    //                         发布于 ${daysAgoText}
+    //                     </span>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     `;
+    // }).join('');
+    const articleListHtml = `
+    <div class="layout-container">
+        <!-- 左侧文章列表 -->
+        <div class="article-list">
+            ${articles.map(article => {
+                const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
+                const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
+            
+                return `
+                    <div class="article-item">
+                        <div class="article-cover">
+                            <img src="${article.topImage}" alt="文章封面">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-header">
+                                ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
+                                <h2 class="article-title">
+                                    <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
+                                </h2>
+                            </div>
+                            <div class="article-meta">
+                                <span class="meta-item">
+                                    <i class="icon-calendar"></i>
+                                    ${moment(article.date).format('YYYY-MM-DD')}
+                                </span>
+                                <span class="meta-item">
+                                    <i class="icon-tag"></i>
+                                    ${article.category}
+                                </span>
+                            </div>
+                            <div class="article-footer">
+                                <span class="meta-item">
+                                    <i class="icon-clock"></i>
+                                    发布于 ${daysAgoText}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
         </div>
-    `).join('');
+
+        <!-- 右侧区域 -->
+        <div class="sidebar">
+            <h3>分类</h3>
+            <ul>
+                <li><a href="#">分类 1</a></li>
+                <li><a href="#">分类 2</a></li>
+                <li><a href="#">分类 3</a></li>
+            </ul>
+
+            <h3>推荐文章</h3>
+            <ul>
+                <li><a href="articles/2024-12-31-welcome.html">推荐文章 1</a></li>
+                <li><a href="#">推荐文章 2</a></li>
+            </ul>
+        </div>
+    </div>
+`;
+
+    
 
     const indexHtml = `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="UTF-8">
+            <!--设置 viewport 属性来实现响应式设计并禁用缩放操作-->
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
             <title>博客预览</title>
             <style>
                 :root {
@@ -180,6 +282,148 @@ function generatePreviewHtml() {
                     transition: transform 0.2s;
                     backdrop-filter: blur(5px);
                 }
+
+                .layout-container {
+    display: flex;               /* 使用 flex 布局 */
+    flex-direction: row;         /* 横向排列 */
+    gap: 20px;                   /* 左右区域的间距 */
+    max-width: 1200px;           /* 页面内容的最大宽度 */
+    margin: 0 auto;              /* 居中显示 */
+    padding: 20px;               /* 外边距 */
+}
+
+.article-list {
+    flex: 2;                     /* 左侧占 2/3 宽度 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;                   /* 每个文章间的间距 */
+}
+
+.sidebar {
+    flex: 1;                     /* 右侧占 1/3 宽度 */
+    background-color: #f8f8f8;   /* 背景颜色 */
+    padding: 20px;               /* 内边距 */
+    border-radius: 8px;          /* 圆角 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.article-item {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;                   /* 每篇文章内部封面和内容的间距 */
+    background-color: #fff;      /* 背景颜色 */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 阴影 */
+}
+
+.article-cover img {
+    max-width: 120px;            /* 图片最大宽度 */
+    border-radius: 6px;          /* 图片圆角 */
+}
+
+.article-content {
+    flex: 1;
+}
+
+.sidebar h3 {
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.sidebar ul {
+    list-style: none;            /* 去掉列表符号 */
+    padding: 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;       /* 去掉下划线 */
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #0056b3;              /* 悬停时颜色 */
+}
+
+                body { 
+    max-width: 100%; /* 改为适配屏幕宽度 */
+    margin: 0 auto; 
+    padding: 20px; 
+    box-sizing: border-box; /* 包括 padding 和 border */
+    background: #1a1a1a;
+    color: #e0e0e0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* 使用 flexbox 和百分比宽度适配布局 */
+.article-item {
+    display: flex;
+    flex-direction: column; /* 默认单列布局，适合小屏幕 */
+    margin-bottom: 20px;
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+/* 针对较大屏幕进行优化 */
+@media (min-width: 768px) {
+    .article-item {
+        flex-direction: row; /* 改为两列布局 */
+    }
+    .article-cover {
+        width: 40%; /* 左侧图片区域占比 */
+        height: auto; /* 保持自适应 */
+    }
+    .article-content {
+        flex: 1;
+        padding: 15px;
+    }
+}
+
+/* 调整标题与内容 */
+.article-title {
+    font-size: 1em; /* 默认字体大小 */
+}
+
+@media (min-width: 768px) {
+    .article-title {
+        font-size: 1.2em; /* 增大标题字体 */
+    }
+}
+
+/* 图片样式优化 */
+.article-cover img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* 适配小屏按钮样式 */
+.back-to-list {
+    top: 10px; /* 更贴近顶部 */
+    left: 10px;
+    width: 35px; /* 缩小尺寸 */
+    height: 35px;
+}
+
+/* 调整代码块布局 */
+.code-block-wrapper pre {
+    padding: 10px; /* 减少边距 */
+}
+
+@media (min-width: 768px) {
+    .code-block-wrapper pre {
+        padding: 15px; /* 保持桌面版适配 */
+    }
+}
+
 
                 .article-item:hover {
                     transform: translateY(-2px);
@@ -440,8 +684,12 @@ function generatePreviewHtml() {
                 <a href="../index.html" class="back-to-list" title="返回文章列表"></a>
                 <h1>${metadata.title}</h1>
                 <div class="article-meta">
-                    <div>发布日期：${metadata.date}</div>
-                    <div>更新日期：${metadata.updated}</div>
+                    <!--<div>发布日期：${metadata.date}</div>-->
+                    <!--<div>更新日期：${metadata.updated}</div>-->
+                    <!--上面的自动给我加了8:00的时分秒，虽然想改，但是不会，自己改了之后导致创建博客失败，就算了，只显示年月日了-->
+                    <div>发布日期：${moment(metadata.date).format('YYYY-MM-DD')}</div>
+                    <div>更新日期：${moment(metadata.updated).format('YYYY-MM-DD')}</div>
+
                     <div>分类：${metadata.category}</div>
                     <div>字数：${metadata.wordCount}</div>
                 </div>
