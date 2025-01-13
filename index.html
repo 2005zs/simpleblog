@@ -5,7 +5,10 @@
             <meta charset="UTF-8">
             <!--设置 viewport 属性来实现响应式设计并禁用缩放操作-->
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-            <title>博客预览</title>
+            <title>简约博客</title>
+            <link rel="icon" href="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" type="image/jpeg"> <!-- 使用外部图片 -->
+             <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
             <style>
                 :root {
                     --custom-bg-image: none;  /* 在这里设置自定义背景图片，例如: url('/path/to/image.jpg') */
@@ -146,8 +149,8 @@
         flex-direction: row; /* 改为两列布局 */
     }
     .article-cover {
-        width: 40%; /* 左侧图片区域占比 */
-        height: auto; /* 保持自适应 */
+        width: 75%; /* 左侧图片区域占比 */
+        height: 80%; /* 保持自适应 */
     }
     .article-content {
         flex: 1;
@@ -199,14 +202,14 @@
                 }
 
                 .article-cover {
-                    width: 200px;
-                    height: 150px;
+                    width: 300px;
+                    height: auto;
                     overflow: hidden;
                 }
 
                 .article-cover img {
                     width: 100%;
-                    height: 100%;
+                    height: auto;
                     object-fit: cover;
                 }
 
@@ -265,13 +268,54 @@
                     padding-bottom: 10px;
                     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 }
+                /* 导航栏样式 */
+nav {
+    position: fixed; /* 固定位置 */
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000; /* 确保导航栏在最上层 */
+}
+
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+nav a:hover {
+    background: #1890ff;
+    color: #fff;
+    border-color: #1890ff;
+}
+
+/* 图标样式 */
+nav a i {
+    font-size: 1.2em;
+}
             </style>
         </head>
         <body>
+        <!-- 导航栏 -->
+<nav>
+    <a href="https://github.com/banlanzs" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+    </a>
+    <a href="https://hexo.banlan.nyc.mn" target="_blank">
+        <i class="fas fa-blog"></i> 博客
+    </a>
+</nav>
             <h1>文章列表</h1>
             
     <div class="layout-container">
-        <!-- 左侧文章列表 -->
         <div class="article-list">
             
                     <div class="article-item">
@@ -298,7 +342,7 @@
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 10天前
+                                    发布于 12天前
                                 </span>
                             </div>
                         </div>
@@ -306,7 +350,97 @@
                 
                     <div class="article-item">
                         <div class="article-cover">
-                            <img src="/default-cover.jpg" alt="文章封面">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-header">
+                                
+                                <h2 class="article-title">
+                                    <a href="/articles/2025-01-13-new.html">new</a>
+                                </h2>
+                            </div>
+                            <div class="article-meta">
+                                <span class="meta-item">
+                                    <i class="icon-calendar"></i>
+                                    2025-01-13
+                                </span>
+                                <span class="meta-item">
+                                    <i class="icon-tag"></i>
+                                    技术笔记
+                                </span>
+                            </div>
+                            <div class="article-footer">
+                                <span class="meta-item">
+                                    <i class="icon-clock"></i>
+                                    发布于 今天
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="article-item">
+                        <div class="article-cover">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-header">
+                                
+                                <h2 class="article-title">
+                                    <a href="/articles/2025-01-13-new1.html">new1</a>
+                                </h2>
+                            </div>
+                            <div class="article-meta">
+                                <span class="meta-item">
+                                    <i class="icon-calendar"></i>
+                                    2025-01-13
+                                </span>
+                                <span class="meta-item">
+                                    <i class="icon-tag"></i>
+                                    技术笔记
+                                </span>
+                            </div>
+                            <div class="article-footer">
+                                <span class="meta-item">
+                                    <i class="icon-clock"></i>
+                                    发布于 今天
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="article-item">
+                        <div class="article-cover">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-header">
+                                
+                                <h2 class="article-title">
+                                    <a href="/articles/2025-01-13-test1.html">test1</a>
+                                </h2>
+                            </div>
+                            <div class="article-meta">
+                                <span class="meta-item">
+                                    <i class="icon-calendar"></i>
+                                    2025-01-13
+                                </span>
+                                <span class="meta-item">
+                                    <i class="icon-tag"></i>
+                                    技术笔记
+                                </span>
+                            </div>
+                            <div class="article-footer">
+                                <span class="meta-item">
+                                    <i class="icon-clock"></i>
+                                    发布于 今天
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="article-item">
+                        <div class="article-cover">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
                         </div>
                         <div class="article-content">
                             <div class="article-header">
@@ -328,7 +462,7 @@
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 今天
+                                    发布于 2天前
                                 </span>
                             </div>
                         </div>
@@ -336,7 +470,7 @@
                 
                     <div class="article-item">
                         <div class="article-cover">
-                            <img src="/default-cover.jpg" alt="文章封面">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
                         </div>
                         <div class="article-content">
                             <div class="article-header">
@@ -358,7 +492,7 @@
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 今天
+                                    发布于 2天前
                                 </span>
                             </div>
                         </div>
@@ -366,7 +500,7 @@
                 
                     <div class="article-item">
                         <div class="article-cover">
-                            <img src="/default-cover.jpg" alt="文章封面">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
                         </div>
                         <div class="article-content">
                             <div class="article-header">
@@ -388,7 +522,7 @@
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 今天
+                                    发布于 2天前
                                 </span>
                             </div>
                         </div>
@@ -396,7 +530,7 @@
                 
                     <div class="article-item">
                         <div class="article-cover">
-                            <img src="https://example.com/path/to/your/image.jpg" alt="文章封面">
+                            <img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="文章封面">
                         </div>
                         <div class="article-content">
                             <div class="article-header">
@@ -418,28 +552,12 @@
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 376天前
+                                    发布于 378天前
                                 </span>
                             </div>
                         </div>
                     </div>
                 
-        </div>
-
-        <!-- 右侧区域 -->
-        <div class="sidebar">
-            <h3>分类</h3>
-            <ul>
-                <li><a href="#">分类 1</a></li>
-                <li><a href="#">分类 2</a></li>
-                <li><a href="#">分类 3</a></li>
-            </ul>
-
-            <h3>推荐文章</h3>
-            <ul>
-                <li><a href="articles/2024-12-31-welcome.html">推荐文章 1</a></li>
-                <li><a href="#">推荐文章 2</a></li>
-            </ul>
         </div>
     </div>
 

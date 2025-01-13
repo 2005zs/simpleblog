@@ -44,6 +44,9 @@
 ```bash
 git clone https://github.com/2005zs/simpleblog.git
 ```
+```bash
+git clone git@github.com:2005zs/simpleblog.git//https不通的时候，用ssh来clone
+```
 ### 进入项目目录
 ```bash
 cd simpleblog
