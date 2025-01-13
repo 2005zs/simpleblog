@@ -76,9 +76,13 @@ function generateArticleList() {
         .map(file => {
             const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8');
             const { attributes } = matter(content);
+
+            // 如果没有 updated 字段，则默认为与 date 相同
+            const updated = attributes.updated || attributes.date;
             return {
                 title: attributes.title,
                 date: attributes.date,
+                updated: updated,
                 category: attributes.category,
                 priority: attributes.priority || 1,
                 topImage: attributes.topImage || '/default-cover.jpg',
@@ -126,10 +130,14 @@ function generatePreviewHtml() {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    ${moment(article.date).format('YYYY-MM-DD')}
+                                    创建于${moment(article.date).format('YYYY-MM-DD')}
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 ${moment(article.updated).format('YYYY-MM-DD')}
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     ${article.category}
@@ -421,6 +429,36 @@ function generatePreviewHtml() {
                     padding-bottom: 10px;
                     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 }
+
+                /* 返回顶部按钮样式 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 1000;
+    display: none; /* 默认隐藏 */
+}
+
+.back-to-top:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.back-to-top:active {
+    transform: scale(1);
+}
+
                 /* 导航栏样式 */
 nav {
     position: fixed; /* 固定位置 */
@@ -466,6 +504,35 @@ nav a i {
         <i class="fas fa-blog"></i> 博客
     </a>
 </nav>
+
+<!-- 返回顶部按钮 -->
+<a href="#" class="back-to-top" title="返回顶部">↑</a>
+<script>
+    // 获取返回顶部按钮
+    const backToTopButton = document.querySelector('.back-to-top');
+    // 当页面加载时默认隐藏按钮
+    backToTopButton.style.display = 'none';
+
+    // 当用户滚动一定距离后显示返回顶部按钮
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            backToTopButton.style.display = 'block';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    // 点击返回顶部按钮时，平滑滚动到页面顶部
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();  // 阻止默认行为
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // 平滑滚动
+        });
+    });
+</script>
+
+
             <h1>文章列表</h1>
             ${articleListHtml}
         </body>
@@ -742,6 +809,36 @@ nav a i {
         width: 100% !important;
     }
 }
+
+/* 返回顶部按钮样式 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 1000;
+    display: none; /* 默认隐藏 */
+}
+
+.back-to-top:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.back-to-top:active {
+    transform: scale(1);
+}
+
                 </style>
             </head>
             <body>
@@ -765,6 +862,33 @@ nav a i {
                 <div class="image-preview-overlay">
                     <img src="" alt="预览图片">
                 </div>
+
+                <!-- 返回顶部按钮 -->
+<a href="#" class="back-to-top" title="返回顶部">↑</a>
+<script>
+    // 获取返回顶部按钮
+    const backToTopButton = document.querySelector('.back-to-top');
+    // 当页面加载时默认隐藏按钮
+    backToTopButton.style.display = 'none';
+
+    // 当用户滚动一定距离后显示返回顶部按钮
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            backToTopButton.style.display = 'block';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    // 点击返回顶部按钮时，平滑滚动到页面顶部
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();  // 阻止默认行为
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // 平滑滚动
+        });
+    });
+</script>
 
                 <script>
                 // 处理代码块
@@ -866,10 +990,48 @@ nav a i {
     console.log('请使用浏览器打开 index.html 查看预览');
 }
 
+// // 添加文件监听功能
+// function watchFiles(server) {
+//     const chokidar = require('chokidar');
+//     const matter = require('gray-matter');
+    
+//     // 监听文章目录
+//     const watcher = chokidar.watch([
+//         path.join(POSTS_DIR, '**/*.md'),
+//         CATEGORIES_PATH
+//     ], {
+//         ignored: /(^|[\/\\])\../,
+//         persistent: true
+//     });
+
+//     // 监听文件变化
+//     watcher.on('change', (path) => {
+//         console.log(`检测到文件变化: ${path}`);
+//         const content = fs.readFileSync(path, 'utf-8');
+//     const { attributes, body } = matter(content);
+    
+//     // 更新 updated 字段为当前时间
+//     attributes.updated = moment().format('YYYY-MM-DD');
+
+//     // 重新生成带有 updated 字段的文件
+//     const newContent = matter.stringify(body, attributes);
+//     fs.writeFileSync(path, newContent);
+
+//     // 重新生成预览
+//         generatePreviewHtml();
+//         console.log('预览已更新');
+//     });
+
+//     // 当服务器关闭时停止监听
+//     server.on('close', () => {
+//         watcher.close();
+//     });
+// }
 // 添加文件监听功能
 function watchFiles(server) {
     const chokidar = require('chokidar');
-    
+    const matter = require('gray-matter');
+
     // 监听文章目录
     const watcher = chokidar.watch([
         path.join(POSTS_DIR, '**/*.md'),
@@ -880,10 +1042,30 @@ function watchFiles(server) {
     });
 
     // 监听文件变化
-    watcher.on('change', (path) => {
-        console.log(`检测到文件变化: ${path}`);
-        generatePreviewHtml();
-        console.log('预览已更新');
+    watcher.on('change', (filePath) => {
+        console.log(`检测到文件变化: ${filePath}`);
+
+        try {
+            // 读取文件内容
+            const content = fs.readFileSync(filePath, 'utf-8');
+            const parsed = matter(content);
+
+            // 确保 parsed.data 是一个对象
+            const attributes = parsed.data || {};
+
+            // 更新 updated 字段为当前时间
+            attributes.updated = moment().format('YYYY-MM-DD HH:mm:ss');
+
+            // 重新生成带有 updated 字段的文件
+            const newContent = matter.stringify(parsed.content, attributes);
+            fs.writeFileSync(filePath, newContent);
+
+            // 重新生成预览
+            generatePreviewHtml();
+            console.log('预览已更新');
+        } catch (error) {
+            console.error(`处理文件时出错: ${error.message}`);
+        }
     });
 
     // 当服务器关闭时停止监听
@@ -891,6 +1073,7 @@ function watchFiles(server) {
         watcher.close();
     });
 }
+
 
 // 添加启动预览服务器的函数
 function startPreviewServer() {
