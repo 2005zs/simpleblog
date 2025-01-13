@@ -66,15 +66,20 @@ npm run preview
 
 ## 部署到github的pages
 #### 1.请将仓库命名为username.github.io
-#### 2.请到`settings`->`pages`->`Build and deployment`,选择actions，然后config static后生成workflow等待username.github.io即可
+#### 2.请到`Actions`->`Pages`->`Static HTML`,然后`config`，然后会帮你生成static.yaml，然后点击`Run workflow`，然后会自动部署到github pages，成功后访问name.github.io即可
 
 ## 部署到cloudflare
-#### cloudflare账户链接github可自行构建部署
+#### cloudflare账户链接github
+在`构建设置`中输入`构建命令`
+```bash
+node scripts/bl.js build
+```
+保存部署即可
+
 
 ## 常见问题
 
-### 1. 如何修改文章的发布时间？
-直接修改文章前置信息中的 `date` 和 `updated` 字段。//不好意思我失败了
+### 1.需要在预览状态下对博客进行修改后才会自动更改`更新时间`
 
 ### 2. 如何置顶文章？
 将文章前置信息中的 `priority` 设置为大于 1 的数值。
@@ -83,7 +88,7 @@ npm run preview
 在文章前置信息中的 `topImage` 字段填入图片 URL。
 
 ## 贡献指南
-欢迎提交 Issue 和 Pull Request！（大佬带带我！）
+欢迎提交 Issue 和 Pull Request！
 
 ## 作者
 [banlanzs](https://github.com/banlanzs)
