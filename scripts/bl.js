@@ -106,71 +106,8 @@ function generatePreviewHtml() {
     }
 
     const articles = generateArticleList();
-    // const articleListHtml = articles.map(article => `
-    //     <div class="article-item">
-    //         <div class="article-cover">
-    //             <img src="${article.topImage}" alt="文章封面">
-    //         </div>
-    //         <div class="article-content">
-    //             <div class="article-header">
-    //                 ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
-    //                 <h2 class="article-title">
-    //                     <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
-    //                 </h2>
-    //             </div>
-    //             <div class="article-meta">
-    //                 <span class="meta-item">
-    //                     <i class="icon-calendar"></i>
-    //                     ${moment(article.date).format('YYYY-MM-DD')}
-    //                <!-- ${moment(article.date).format('YYYY-MM-DD HH:mm:ss')}-->
-    //                 </span>
-    //                 <span class="meta-item">
-    //                     <i class="icon-tag"></i>
-    //                     ${article.category}
-    //                 </span>
-    //             </div>
-    //         </div>
-    //     </div>
-    // `).join('');
-    // const articleListHtml = articles.map(article => {
-    //     const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
-    //     const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
-    
-    //     return `
-    //         <div class="article-item">
-    //             <div class="article-cover">
-    //                 <img src="${article.topImage}" alt="文章封面">
-    //             </div>
-    //             <div class="article-content">
-    //                 <div class="article-header">
-    //                     ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
-    //                     <h2 class="article-title">
-    //                         <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
-    //                     </h2>
-    //                 </div>
-    //                 <div class="article-meta">
-    //                     <span class="meta-item">
-    //                         <i class="icon-calendar"></i>
-    //                         ${moment(article.date).format('YYYY-MM-DD')}
-    //                     </span>
-    //                     <span class="meta-item">
-    //                         <i class="icon-tag"></i>
-    //                         ${article.category}
-    //                     </span>
-    //                 </div>
-    //                 <div class="article-footer">
-    //                     <span class="meta-item">
-    //                         <i class="icon-clock"></i>
-    //                         发布于 ${daysAgoText}
-    //                     </span>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     `;
-    // }).join('');
     const articleListHtml = `
     <div class="layout-container">
-        <!-- 左侧文章列表 -->
         <div class="article-list">
             ${articles.map(article => {
                 const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
@@ -209,22 +146,6 @@ function generatePreviewHtml() {
                 `;
             }).join('')}
         </div>
-
-        <!-- 右侧区域 -->
-        <div class="sidebar">
-            <h3>分类</h3>
-            <ul>
-                <li><a href="#">分类 1</a></li>
-                <li><a href="#">分类 2</a></li>
-                <li><a href="#">分类 3</a></li>
-            </ul>
-
-            <h3>推荐文章</h3>
-            <ul>
-                <li><a href="#">推荐文章 1</a></li>
-                <li><a href="#">推荐文章 2</a></li>
-            </ul>
-        </div>
     </div>
 `;
 
@@ -237,7 +158,10 @@ function generatePreviewHtml() {
             <meta charset="UTF-8">
             <!--设置 viewport 属性来实现响应式设计并禁用缩放操作-->
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-            <title>博客预览</title>
+            <title>简约博客</title>
+            <link rel="icon" href="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" type="image/jpeg"> <!-- 使用外部图片 -->
+             <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
             <style>
                 :root {
                     --custom-bg-image: none;  /* 在这里设置自定义背景图片，例如: url('/path/to/image.jpg') */
@@ -378,8 +302,8 @@ function generatePreviewHtml() {
         flex-direction: row; /* 改为两列布局 */
     }
     .article-cover {
-        width: 40%; /* 左侧图片区域占比 */
-        height: auto; /* 保持自适应 */
+        width: 75%; /* 左侧图片区域占比 */
+        height: 80%; /* 保持自适应 */
     }
     .article-content {
         flex: 1;
@@ -431,14 +355,14 @@ function generatePreviewHtml() {
                 }
 
                 .article-cover {
-                    width: 200px;
-                    height: 150px;
+                    width: 300px;
+                    height: auto;
                     overflow: hidden;
                 }
 
                 .article-cover img {
                     width: 100%;
-                    height: 100%;
+                    height: auto;
                     object-fit: cover;
                 }
 
@@ -497,9 +421,51 @@ function generatePreviewHtml() {
                     padding-bottom: 10px;
                     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 }
+                /* 导航栏样式 */
+nav {
+    position: fixed; /* 固定位置 */
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000; /* 确保导航栏在最上层 */
+}
+
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+nav a:hover {
+    background: #1890ff;
+    color: #fff;
+    border-color: #1890ff;
+}
+
+/* 图标样式 */
+nav a i {
+    font-size: 1.2em;
+}
             </style>
         </head>
         <body>
+        <!-- 导航栏 -->
+<nav>
+    <a href="https://github.com/banlanzs" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+    </a>
+    <a href="https://hexo.banlan.nyc.mn" target="_blank">
+        <i class="fas fa-blog"></i> 博客
+    </a>
+</nav>
             <h1>文章列表</h1>
             ${articleListHtml}
         </body>
@@ -517,6 +483,8 @@ function generatePreviewHtml() {
             <html>
             <head>
                 <meta charset="UTF-8">
+                <!--设置 viewport 属性来实现响应式设计并禁用缩放操作-->
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                 <title>${metadata.title}</title>
                 <style>
                     :root {
@@ -678,6 +646,102 @@ function generatePreviewHtml() {
                         background: #28a745;
                         border-color: #28a745;
                     }
+                    /* 手机屏幕适配 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .article-content {
+        font-size: 0.9em; /* 缩小字体 */
+    }
+
+    .article-content img {
+        margin: 0.5em 0; /* 缩小图片间距 */
+    }
+
+    .code-block-wrapper pre {
+        padding: 5px; /* 缩小代码块内边距 */
+    }
+
+    .back-to-list {
+        width: 30px; /* 缩小返回按钮 */
+        height: 30px;
+        top: 10px;
+        left: 10px;
+    }
+    .layout-container {
+        flex-direction: column; /* 改为单列布局 */
+    }
+
+    .sidebar {
+        order: -1; /* 将右侧区域移动到上方 */
+        margin-bottom: 20px; /* 增加间距 */
+    }
+}
+
+/* 响应式视频容器 */
+.video-container {
+    position: relative;
+    width: 100% !important; /* 强制使用100%宽度 */
+    max-width: 100% !important; /* 确保不会超出父容器 */
+    padding-bottom: 56.25%; /* 16:9 宽高比 */
+    margin: 2em auto; /* 上下间距并居中 */
+    overflow: hidden;
+    box-sizing: border-box; /* 确保padding计算在宽度内 */
+}
+
+/* 响应式视频容器 */
+.video-container {
+    position: relative;
+    width: 100% !important; /* 强制使用100%宽度 */
+    max-width: 100% !important; /* 确保不会超出父容器 */
+    padding-bottom: 56.25%; /* 16:9 宽高比 */
+    margin: 2em auto; /* 上下间距并居中 */
+    overflow: hidden !important;
+    box-sizing: border-box !important; /* 确保padding计算在宽度内 */
+}
+
+/* 嵌入视频样式 */
+.video-container iframe,
+.video-container embed,
+.video-container object {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 120% !important;
+    border: none;
+}
+
+/* 确保文章内容中的所有iframe都被正确约束 */
+.article-content iframe {
+    max-width: 100%;
+    width: 100%;
+    margin: 1em 0;
+}
+
+/* 移动端特定样式 */
+@media (max-width: 768px) {
+    .video-container {
+        width: 100vw !important;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-left: -10px; /* 抵消父元素的padding */
+        margin-right: -10px;
+        max-width: 100vw !important;
+    }
+    
+    .article-content {
+        overflow-x: hidden !important; /* 防止水平滚动 */
+        width: 100% !important;
+    }
+    
+    body {
+        overflow-x: hidden !important; /* 防止body层级的水平滚动 */
+        width: 100% !important;
+    }
+}
                 </style>
             </head>
             <body>

@@ -15,7 +15,6 @@ function convertMarkdownToHtml(markdown) {
     
     // 更新字数统计
     attributes.wordCount = countWords(body);
-    
     return {
         metadata: attributes,
         content: htmlContent
