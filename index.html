@@ -268,6 +268,36 @@
                     padding-bottom: 10px;
                     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 }
+
+                /* 返回顶部按钮样式 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 1000;
+    display: none; /* 默认隐藏 */
+}
+
+.back-to-top:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.back-to-top:active {
+    transform: scale(1);
+}
+
                 /* 导航栏样式 */
 nav {
     position: fixed; /* 固定位置 */
@@ -313,6 +343,35 @@ nav a i {
         <i class="fas fa-blog"></i> 博客
     </a>
 </nav>
+
+<!-- 返回顶部按钮 -->
+<a href="#" class="back-to-top" title="返回顶部">↑</a>
+<script>
+    // 获取返回顶部按钮
+    const backToTopButton = document.querySelector('.back-to-top');
+    // 当页面加载时默认隐藏按钮
+    backToTopButton.style.display = 'none';
+
+    // 当用户滚动一定距离后显示返回顶部按钮
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            backToTopButton.style.display = 'block';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    // 点击返回顶部按钮时，平滑滚动到页面顶部
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();  // 阻止默认行为
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // 平滑滚动
+        });
+    });
+</script>
+
+
             <h1>文章列表</h1>
             
     <div class="layout-container">
@@ -330,10 +389,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-01
+                                    创建于2024-12-31
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-13
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术分享
@@ -342,7 +405,7 @@ nav a i {
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 12天前
+                                    发布于 13天前
                                 </span>
                             </div>
                         </div>
@@ -360,10 +423,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-13
+                                    创建于2025-01-13
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-13
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -390,10 +457,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-13
+                                    创建于2025-01-13
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-13
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -420,10 +491,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-13
+                                    创建于2025-01-13
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-13
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -450,10 +525,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-11
+                                    创建于2025-01-11
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-11
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -480,10 +559,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-11
+                                    创建于2025-01-11
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-11
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -510,10 +593,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2025-01-11
+                                    创建于2025-01-11
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-11
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     技术笔记
@@ -540,10 +627,14 @@ nav a i {
                                 </h2>
                             </div>
                             <div class="article-meta">
-                                <span class="meta-item">
+                                <!--<span class="meta-item">
                                     <i class="icon-calendar"></i>
-                                    2024-01-01
+                                    创建于2024-12-31
                                 </span>
+                                <span class="meta-item">
+                                    <i class="icon-refresh"></i>
+                                    更新于 2025-01-13
+                                </span>-->
                                 <span class="meta-item">
                                     <i class="icon-tag"></i>
                                     示例分类
@@ -552,7 +643,7 @@ nav a i {
                             <div class="article-footer">
                                 <span class="meta-item">
                                     <i class="icon-clock"></i>
-                                    发布于 378天前
+                                    发布于 13天前
                                 </span>
                             </div>
                         </div>
