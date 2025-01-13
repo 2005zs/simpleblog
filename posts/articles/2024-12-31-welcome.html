@@ -262,23 +262,58 @@
         width: 100% !important;
     }
 }
+
+/* 返回顶部按钮样式 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 1000;
+    display: none; /* 默认隐藏 */
+}
+
+.back-to-top:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.back-to-top:active {
+    transform: scale(1);
+}
+
                 </style>
             </head>
             <body>
                 <a href="../index.html" class="back-to-list" title="返回文章列表"></a>
                 <h1>第一篇博客</h1>
                 <div class="article-meta">
-                    <!--<div>发布日期：Wed Jan 01 2025 01:54:35 GMT+0800 (中国标准时间)</div>-->
-                    <!--<div>更新日期：Wed Jan 01 2025 02:03:24 GMT+0800 (中国标准时间)</div>-->
+                    <!--<div>发布日期：Tue Dec 31 2024 08:00:00 GMT+0800 (中国标准时间)</div>-->
+                    <!--<div>更新日期：2025-01-13 23:35:20</div>-->
                     <!--上面的自动给我加了8:00的时分秒，虽然想改，但是不会，自己改了之后导致创建博客失败，就算了，只显示年月日了-->
-                    <div>发布日期：2025-01-01</div>
-                    <div>更新日期：2025-01-01</div>
+                    <div>发布日期：2024-12-31</div>
+                    <div>更新日期：2025-01-13</div>
 
                     <div>分类：技术分享</div>
-                    <div>字数：263</div>
+                    <div>字数：286</div>
                 </div>
                 <div class="article-content">
-                    <p>在这里写入博客正文... </p>
+                    <p>&#39;&#39;&#39; 注释这是注释
+&#39;&#39;&#39; 注释
+&#39;&#39;&#39; 差不多了
+&#39;&#39;&#39; 
+在这里写入博客正文... 
+&#39;&#39;&#39;</p>
 <h2>新建博客</h2>
 <pre><code class="language-bash">npm run new
 </code></pre>
@@ -287,7 +322,7 @@
 </code></pre>
 <h2>priority表示博客的优先级，数字越大，优先级越高</h2>
 <pre><code class="language-bash">0 普通
-1 普通
+1 普通，按创建顺序从上到下排列
 &gt;1 置顶
 </code></pre>
 <p><img src="https://images-r2.banlanzs.tech/file/1735481524438_banlan1.jpg" alt="banlan1.jpg"></p>
@@ -315,6 +350,33 @@ git log  //查看提交历史
                 <div class="image-preview-overlay">
                     <img src="" alt="预览图片">
                 </div>
+
+                <!-- 返回顶部按钮 -->
+<a href="#" class="back-to-top" title="返回顶部">↑</a>
+<script>
+    // 获取返回顶部按钮
+    const backToTopButton = document.querySelector('.back-to-top');
+    // 当页面加载时默认隐藏按钮
+    backToTopButton.style.display = 'none';
+
+    // 当用户滚动一定距离后显示返回顶部按钮
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            backToTopButton.style.display = 'block';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    // 点击返回顶部按钮时，平滑滚动到页面顶部
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();  // 阻止默认行为
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // 平滑滚动
+        });
+    });
+</script>
 
                 <script>
                 // 处理代码块
