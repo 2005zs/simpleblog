@@ -55,6 +55,9 @@ cd simpleblog
 ```bash
 npm ci
 ```
+```bash
+npm install gray-matter
+```
 ### 创建新文章
 ```bash
 npm run new
