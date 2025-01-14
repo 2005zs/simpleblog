@@ -110,51 +110,121 @@ function generatePreviewHtml() {
     }
 
     const articles = generateArticleList();
-    const articleListHtml = `
+//     const articleListHtml = `
+//     <div class="layout-container">
+//         <div class="article-list">
+//             ${articles.map(article => {
+//                 const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
+//                 const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
+            
+//                 return `
+//                     <div class="article-item">
+//                         <div class="article-cover">
+//                             <img src="${article.topImage}" alt="文章封面">
+//                         </div>
+//                         <div class="article-content">
+//                             <div class="article-header">
+//                                 ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
+//                                 <h2 class="article-title">
+//                                     <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
+//                                 </h2>
+//                             </div>
+//                             <div class="article-meta">
+//                                 <!--<span class="meta-item">
+//                                     <i class="icon-calendar"></i>
+//                                     创建于${moment(article.date).format('YYYY-MM-DD')}
+//                                 </span>
+//                                 <span class="meta-item">
+//                                     <i class="icon-refresh"></i>
+//                                     更新于 ${moment(article.updated).format('YYYY-MM-DD')}
+//                                 </span>-->
+//                                 <span class="meta-item">
+//                                     <i class="icon-tag"></i>
+//                                     ${article.category}
+//                                 </span>
+//                             </div>
+//                             <div class="article-footer">
+//                                 <span class="meta-item">
+//                                     <i class="icon-clock"></i>
+//                                     发布于 ${daysAgoText}
+//                                 </span>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 `;
+//             }).join('')}
+//         </div>
+//         <div class="pagination">
+//     ${Array.from({ length: Math.ceil(articles.length / 5) }, (_, i) => `
+//         <button class="page-btn ${i === 0 ? 'active' : ''}" data-page="${i}">${i + 1}</button>
+//     `).join('')}
+// </div>
+//     </div>
+// `;
+const articlesPerPage = 5; // 每页显示的文章数量
+const totalPages = Math.ceil(articles.length / articlesPerPage); // 总页数
+
+let articleListHtml = `
     <div class="layout-container">
         <div class="article-list">
-            ${articles.map(article => {
-                const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
-                const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
-            
-                return `
-                    <div class="article-item">
-                        <div class="article-cover">
-                            <img src="${article.topImage}" alt="文章封面">
-                        </div>
-                        <div class="article-content">
-                            <div class="article-header">
-                                ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
-                                <h2 class="article-title">
-                                    <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
-                                </h2>
-                            </div>
-                            <div class="article-meta">
-                                <!--<span class="meta-item">
-                                    <i class="icon-calendar"></i>
-                                    创建于${moment(article.date).format('YYYY-MM-DD')}
-                                </span>
-                                <span class="meta-item">
-                                    <i class="icon-refresh"></i>
-                                    更新于 ${moment(article.updated).format('YYYY-MM-DD')}
-                                </span>-->
-                                <span class="meta-item">
-                                    <i class="icon-tag"></i>
-                                    ${article.category}
-                                </span>
-                            </div>
-                            <div class="article-footer">
-                                <span class="meta-item">
-                                    <i class="icon-clock"></i>
-                                    发布于 ${daysAgoText}
-                                </span>
-                            </div>
-                        </div>
+`;
+
+// 根据分页逻辑生成每页的内容
+for (let page = 0; page < totalPages; page++) {
+    const start = page * articlesPerPage;
+    const end = start + articlesPerPage;
+    const pageArticles = articles.slice(start, end);
+
+    articleListHtml += `
+        <div class="article-page" data-page="${page}" style="display: ${page === 0 ? 'block' : 'none'};">
+    `;
+
+    articleListHtml += pageArticles.map(article => {
+        const daysAgo = moment().diff(moment(article.date), 'days'); // 计算天数差
+        const daysAgoText = daysAgo === 0 ? '今天' : `${daysAgo}天前`; // 格式化显示内容
+
+        return `
+            <div class="article-item">
+                <div class="article-cover">
+                    <img src="${article.topImage}" alt="文章封面">
+                </div>
+                <div class="article-content">
+                    <div class="article-header">
+                        ${article.priority > 1 ? '<span class="top-tag">置顶</span>' : ''}
+                        <h2 class="article-title">
+                            <a href="/articles/${encodeURIComponent(article.fileName.replace('.md', '.html'))}">${article.title}</a>
+                        </h2>
                     </div>
-                `;
-            }).join('')}
+                    <div class="article-meta">
+                        <span class="meta-item">
+                            <i class="icon-tag"></i>
+                            ${article.category}
+                        </span>
+                    </div>
+                    <div class="article-footer">
+                        <span class="meta-item">
+                            <i class="icon-clock"></i>
+                            发布于 ${daysAgoText}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    articleListHtml += `
+        </div> <!-- 结束当前页的文章列表 -->
+    `;
+}
+
+articleListHtml += `
+        </div> <!-- 结束 article-list -->
+        <div class="pagination">
+            ${Array.from({ length: totalPages }, (_, i) => `
+                <button class="page-btn ${i === 0 ? 'active' : ''}" data-page="${i}">${i + 1}</button>
+            `).join('')}
         </div>
-    </div>
+    </div> <!-- 结束 layout-container -->
 `;
 
     
@@ -530,11 +600,51 @@ nav a i {
             behavior: 'smooth'  // 平滑滚动
         });
     });
+    
 </script>
+
+            <div class="search-container">
+    <input type="text" id="searchInput" placeholder="输入标题关键词">
+    <input type="date" id="searchDate">
+    <button id="searchBtn">搜索</button>
+</div>
 
 
             <h1>文章列表</h1>
             ${articleListHtml}
+
+            <script>
+    // 分页逻辑
+    document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const page = this.dataset.page;
+
+            document.querySelectorAll('.article-page').forEach(pageEl => {
+                pageEl.style.display = pageEl.dataset.page === page ? 'block' : 'none';
+            });
+
+            document.querySelectorAll('.page-btn').forEach(button => button.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // 搜索逻辑
+    document.getElementById('searchBtn').addEventListener('click', () => {
+        const keyword = document.getElementById('searchInput').value.toLowerCase();
+        const date = document.getElementById('searchDate').value;
+
+        document.querySelectorAll('.article-item').forEach(item => {
+            const title = item.querySelector('.article-title a').textContent.toLowerCase();
+            const postDate = item.querySelector('.article-footer .meta-item i.icon-clock').textContent;
+
+            const matchKeyword = keyword ? title.includes(keyword) : true;
+            const matchDate = date ? postDate.includes(date) : true;
+
+            item.style.display = matchKeyword && matchDate ? 'flex' : 'none';
+        });
+    });
+</script>
+
         </body>
         </html>
     `;
