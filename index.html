@@ -374,7 +374,7 @@ nav a i {
 
             <div class="search-container">
     <input type="text" id="searchInput" placeholder="输入标题关键词">
-    <input type="date" id="searchDate">
+    <!--<input type="date" id="searchDate">-->
     <button id="searchBtn">搜索</button>
 </div>
 
@@ -406,7 +406,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 14天前
+                            发布于 15天前
                         </span>
                     </div>
                 </div>
@@ -432,7 +432,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 1天前
+                            发布于 2天前
                         </span>
                     </div>
                 </div>
@@ -458,7 +458,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 1天前
+                            发布于 2天前
                         </span>
                     </div>
                 </div>
@@ -484,7 +484,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 1天前
+                            发布于 2天前
                         </span>
                     </div>
                 </div>
@@ -510,7 +510,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 3天前
+                            发布于 4天前
                         </span>
                     </div>
                 </div>
@@ -540,7 +540,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 3天前
+                            发布于 4天前
                         </span>
                     </div>
                 </div>
@@ -566,7 +566,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 3天前
+                            发布于 4天前
                         </span>
                     </div>
                 </div>
@@ -592,7 +592,7 @@ nav a i {
                     <div class="article-footer">
                         <span class="meta-item">
                             <i class="icon-clock"></i>
-                            发布于 14天前
+                            发布于 15天前
                         </span>
                     </div>
                 </div>
@@ -626,21 +626,87 @@ nav a i {
         });
     });
 
-    // 搜索逻辑
-    document.getElementById('searchBtn').addEventListener('click', () => {
-        const keyword = document.getElementById('searchInput').value.toLowerCase();
-        const date = document.getElementById('searchDate').value;
+    document.addEventListener('DOMContentLoaded', function() {
+    // 存储原始文章列表的副本
+    const originalArticles = Array.from(document.querySelectorAll('.article-item'));
+    const articlesPerPage = 5;
 
-        document.querySelectorAll('.article-item').forEach(item => {
-            const title = item.querySelector('.article-title a').textContent.toLowerCase();
-            const postDate = item.querySelector('.article-footer .meta-item i.icon-clock').textContent;
+    function renderArticles(articles) {
+        // 计算需要的页数
+        const totalPages = Math.ceil(articles.length / articlesPerPage);
+        
+        // 更新分页按钮
+        const paginationContainer = document.querySelector('.pagination');
+        paginationContainer.innerHTML = Array.from({ length: totalPages }, function(_, i) {
+            return '<button class="page-btn ' + (i === 0 ? 'active' : '') + '" data-page="' + i + '">' + (i + 1) + '</button>';
+        }).join('');
+        
+        // 创建新的文章页面
+        const articleList = document.querySelector('.article-list');
+        articleList.innerHTML = '';
+        
+        // 如果没有文章，显示提示信息
+        if (articles.length === 0) {
+            articleList.innerHTML = '<div class="no-results">没有找到匹配的文章</div>';
+            return;
+        }
+        
+        // 创建分页的文章显示
+        for (let page = 0; page < totalPages; page++) {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'article-page';
+            pageDiv.setAttribute('data-page', page.toString());
+            pageDiv.style.display = page === 0 ? 'block' : 'none';
+            
+            const start = page * articlesPerPage;
+            const end = Math.min(start + articlesPerPage, articles.length);
+            const pageArticles = articles.slice(start, end);
+            
+            pageArticles.forEach(function(article) {
+                const articleClone = article.cloneNode(true);
+                articleClone.style.display = 'flex';
+                pageDiv.appendChild(articleClone);
+            });
+            
+            articleList.appendChild(pageDiv);
+        }
+        
+        // 重新绑定分页事件
+        bindPaginationEvents();
+    }
 
-            const matchKeyword = keyword ? title.includes(keyword) : true;
-            const matchDate = date ? postDate.includes(date) : true;
-
-            item.style.display = matchKeyword && matchDate ? 'flex' : 'none';
+    function bindPaginationEvents() {
+        document.querySelectorAll('.page-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                document.querySelectorAll('.article-page').forEach(function(pageEl) {
+                    pageEl.style.display = pageEl.getAttribute('data-page') === page ? 'block' : 'none';
+                });
+                document.querySelectorAll('.page-btn').forEach(function(button) {
+                    button.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
         });
+    }
+
+    // 搜索功能
+    document.getElementById('searchBtn').addEventListener('click', function() {
+        const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        // 基于原始文章列表进行过滤
+        const matchedArticles = originalArticles.filter(function(item) {
+            const title = item.querySelector('.article-title a').textContent.toLowerCase();
+            return keyword === '' ? true : title.includes(keyword);
+        });
+        
+        // 渲染过滤后的文章
+        renderArticles(matchedArticles);
     });
+
+    // 初始化分页事件
+    bindPaginationEvents();
+});
 </script>
 
         </body>
