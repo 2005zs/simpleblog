@@ -92,6 +92,3 @@ node scripts/bl.js build
 
 ## 贡献指南
 欢迎提交 Issue 和 Pull Request！
-
-## 作者
-[banlanzs](https://github.com/banlanzs)
